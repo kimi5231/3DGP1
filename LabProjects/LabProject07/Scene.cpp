@@ -14,19 +14,26 @@ void CScene::BuildObjects(ID3D12Device* pd3dDevice, ID3D12GraphicsCommandList* p
 
 	CTriangleMesh* pMesh = new CTriangleMesh(pd3dDevice, pd3dCommandList);
 
-	m_nObjects = 1;
+	CRectangleMesh* pRMesh = new CRectangleMesh(pd3dDevice, pd3dCommandList);
+
+	m_nObjects = 2;
 	m_ppObjects = new CGameObject * [m_nObjects];
 
 	CRotatingObject* pRotatingObject = new CRotatingObject();
 	pRotatingObject->SetMesh(pMesh);
+
+	CGameObject* pGameObject = new CGameObject();
+	pGameObject->SetMesh(pRMesh);
 
 	CDiffusedShader* pShader = new CDiffusedShader();
 	pShader->CreateShader(pd3dDevice, m_pd3dGraphicsRootSignature);
 	pShader->CreateShaderVariables(pd3dDevice, pd3dCommandList);
 
 	pRotatingObject->SetShader(pShader);
+	pGameObject->SetShader(pShader);
 
 	m_ppObjects[0] = pRotatingObject;
+	m_ppObjects[1] = pGameObject;
 }
 
 void CScene::ReleaseObjects()
